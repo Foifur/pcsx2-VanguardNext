@@ -724,7 +724,7 @@ struct alignas(16) GSHWDrawConfig
 	};
 	static_assert(sizeof(BlendPass) == 8, "blend pass is 8 bytes");
 
-	BlendPass blend_second_pass;
+	BlendPass blend_multi_pass;
 
 	VSConstantBuffer cb_vs;
 	PSConstantBuffer cb_ps;
