@@ -9137,12 +9137,12 @@ Do you want to load this save and continue?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/GS/Renderers/Vulkan/GSDeviceVK.cpp" line="2647"/>
+        <location filename="../../pcsx2/GS/Renderers/Vulkan/GSDeviceVK.cpp" line="2677"/>
         <source>Stencil buffers and texture barriers are both unavailable, this will break some graphical effects.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/GS/Renderers/Vulkan/GSDeviceVK.cpp" line="5022"/>
+        <location filename="../../pcsx2/GS/Renderers/Vulkan/GSDeviceVK.cpp" line="5055"/>
         <source>Spin GPU During Readbacks is enabled, but calibrated timestamps are unavailable.  This might be really slow.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -17737,43 +17737,38 @@ Scanning recursively takes more time, but will identify files in subdirectories.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="943"/>
-        <source>HID Keyboard</source>
+        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="821"/>
+        <source>HID Keyboard (Konami)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="954"/>
+        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="832"/>
         <source>Keyboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="1017"/>
+        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="894"/>
         <source>HID Mouse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="1047"/>
+        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="923"/>
         <source>Pointer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="1048"/>
+        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="924"/>
         <source>Left Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="1049"/>
+        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="925"/>
         <source>Right Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="1050"/>
+        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="926"/>
         <source>Middle Button</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../../pcsx2/USB/usb-hid/usb-hid.cpp" line="1128"/>
-        <source>Konami Keyboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
