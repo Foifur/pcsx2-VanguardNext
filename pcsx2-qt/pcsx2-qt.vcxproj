@@ -59,6 +59,10 @@
     <Link>
       <AdditionalDependencies>$(QtEntryPointLib);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ResourceCompile Include="..\pcsx2\windows\PCSX2.rc" />
@@ -152,9 +156,12 @@
     <ClCompile Include="QtKeyCodes.cpp" />
     <ClCompile Include="QtUtils.cpp" />
     <ClCompile Include="Translations.cpp" />
+    <ClCompile Include="Vanguard\VanguardHelpers.cpp" />
     <ClCompile Include="VCRuntimeChecker.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Vanguard\VanguardClientInitializer.h" />
+    <ClInclude Include="Vanguard\VanguardHelpers.h" />
     <QtMoc Include="SetupWizardDialog.h" />
     <QtMoc Include="Settings\InterfaceSettingsWidget.h" />
     <QtMoc Include="Settings\GameListSettingsWidget.h" />
@@ -395,6 +402,9 @@
     </QtUi>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Vanguard\VanguardSpec.json">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
     <QtUi Include="Settings\USBBindingWidget_GunCon2.ui">
       <FileType>Document</FileType>
     </QtUi>

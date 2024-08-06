@@ -184,8 +184,13 @@ void SetupWizardDialog::setupLanguagePage()
 	connect(
 		m_ui.language, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &SetupWizardDialog::languageChanged);
 
+	// RTC_Hijack: nuke auto updater
+	/*
 	SettingWidgetBinder::BindWidgetToBoolSetting(
 		nullptr, m_ui.autoUpdateEnabled, "AutoUpdater", "CheckAtStartup", true);
+	*/
+	SettingWidgetBinder::BindWidgetToBoolSetting(
+		nullptr, m_ui.autoUpdateEnabled, "AutoUpdater", "CheckAtStartup", false);
 }
 
 void SetupWizardDialog::themeChanged()

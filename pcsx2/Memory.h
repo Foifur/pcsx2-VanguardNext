@@ -141,7 +141,6 @@ namespace SysMemory
 	// clang-format on
 } // namespace SysMemory
 
-
 #define PSM(mem) (vtlb_GetPhyPtr((mem)&0x1fffffff))
 
 #define psHu8(mem) (*(u8*)&eeHw[(mem)&0xffff])

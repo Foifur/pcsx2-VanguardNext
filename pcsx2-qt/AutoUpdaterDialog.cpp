@@ -109,6 +109,8 @@ AutoUpdaterDialog::~AutoUpdaterDialog() = default;
 
 bool AutoUpdaterDialog::isSupported()
 {
+// RTC_Hijack: nuke auto updater
+/*
 #ifdef AUTO_UPDATER_SUPPORTED
 #ifdef __linux__
 	// For Linux, we need to check whether we're running from the appimage.
@@ -126,6 +128,8 @@ bool AutoUpdaterDialog::isSupported()
 #else
 	return false;
 #endif
+*/
+return false;
 }
 
 QStringList AutoUpdaterDialog::getTagList()

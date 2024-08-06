@@ -49,6 +49,9 @@
 #include <QtWidgets/QStyle>
 #include <QtWidgets/QStyleFactory>
 
+#include "Vanguard/VanguardHelpers.h" // RTC_Hijack
+#include "Vanguard/VanguardClientInitializer.h" // RTC_Hijack
+
 #ifdef _WIN32
 #include "common/RedtapeWindows.h"
 #include <Dbt.h>
@@ -104,6 +107,7 @@ MainWindow::MainWindow()
 {
 	pxAssert(!g_main_window);
 	g_main_window = this;
+	VanguardClientInitializer::win = this; // RTC_Hijack
 
 #if !defined(_WIN32) && !defined(__APPLE__)
 	s_use_central_widget = DisplayContainer::isRunningOnWayland();
@@ -1184,6 +1188,7 @@ bool MainWindow::requestShutdown(bool allow_confirm, bool allow_save_to_state, b
 	// Only confirm on UI thread because we need to display a msgbox.
 	if (!m_is_closing && allow_confirm && !GSDumpReplayer::IsReplayingDump() && Host::GetBoolSettingValue("UI", "ConfirmShutdown", true))
 	{
+
 		QMessageBox msgbox(lock.getDialogParent());
 		msgbox.setIcon(QMessageBox::Question);
 		msgbox.setWindowTitle(tr("Confirm Shutdown"));
@@ -1222,6 +1227,9 @@ bool MainWindow::requestShutdown(bool allow_confirm, bool allow_save_to_state, b
 		updateEmulationActions(false, false, true);
 		updateDisplayRelatedActions(false, false, false);
 	}
+
+	// RTC_Hijack: call Vanguard function
+	CallImportedFunction<void>((char*)"GAMECLOSED");
 
 	// Now we can actually shut down the VM.
 	g_emu_thread->shutdownVM(save_state);
@@ -1634,9 +1642,12 @@ void MainWindow::checkForUpdates(bool display_message, bool force_check)
 		Host::CommitBaseSettingChanges();
 	}
 
+	// RTC_Hijack: nuke auto updater
+	/*
 	m_auto_updater_dialog = new AutoUpdaterDialog(this);
 	connect(m_auto_updater_dialog, &AutoUpdaterDialog::updateCheckCompleted, this, &MainWindow::onUpdateCheckComplete);
 	m_auto_updater_dialog->queueUpdateCheck(display_message);
+	*/
 }
 
 void MainWindow::onUpdateCheckComplete()
@@ -2640,6 +2651,9 @@ void MainWindow::startGameListEntry(const GameList::Entry* entry, std::optional<
 	std::shared_ptr<VMBootParameters> params = std::make_shared<VMBootParameters>();
 	params->fast_boot = fast_boot;
 
+	// RTC_Hijack: call Vanguard function
+	CallImportedFunction<void>((char*)"LOADGAMESTART", entry->path);
+
 	GameList::FillBootParametersForEntry(params.get(), entry);
 
 	if (save_slot.has_value() && !entry->serial.empty())
@@ -2931,6 +2945,9 @@ void MainWindow::doStartFile(std::optional<CDVD_SourceType> source, const QStrin
 {
 	if (s_vm_valid)
 		return;
+
+	// RTC_Hijack: call Vanguard function
+	CallImportedFunction<void>((char*)"LOADGAMESTART", path.toStdString());
 
 	std::shared_ptr<VMBootParameters> params = std::make_shared<VMBootParameters>();
 	params->source_type = source;

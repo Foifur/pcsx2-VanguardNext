@@ -356,6 +356,7 @@
       <Filter>Debugger</Filter>
     </ClCompile>
     <ClCompile Include="VCRuntimeChecker.cpp" />
+    <ClCompile Include="Vanguard\VanguardHelpers.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Manifest Include="..\pcsx2\windows\PCSX2.manifest">
@@ -378,6 +379,8 @@
     <ClInclude Include="Debugger\DebuggerSettingsManager.h">
       <Filter>Debugger</Filter>
     </ClInclude>
+    <ClInclude Include="Vanguard\VanguardClientInitializer.h" />
+    <ClInclude Include="Vanguard\VanguardHelpers.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="MainWindow.h" />
@@ -683,6 +686,7 @@
     <None Include="Settings\ControllerMappingSettingsDialog.ui">
       <Filter>Settings</Filter>
     </None>
+    <None Include="Vanguard\VanguardSpec.json" />
   </ItemGroup>
   <ItemGroup>
     <QtTs Include="Translations\pcsx2-qt_en.ts">

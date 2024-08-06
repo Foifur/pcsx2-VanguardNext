@@ -56,6 +56,8 @@
 #include <cmath>
 #include <csignal>
 
+#include "Vanguard/VanguardHelpers.h"
+
 static constexpr u32 SETTINGS_SAVE_DELAY = 1000;
 static constexpr const char* RUNTIME_RESOURCES_URL =
 	"https://github.com/PCSX2/pcsx2-windows-dependencies/releases/download/runtime-resources/";
@@ -261,6 +263,10 @@ void EmuThread::startVM(std::shared_ptr<VMBootParameters> boot_params)
 		redrawDisplayWindow();
 		Host::OnVMPaused();
 	}
+
+	// RTC_Hijack: call Vanguard function
+	const QFileInfo fi(QtHost::GetCurrentGamePath());
+	CallImportedFunction<void>((char*)"LOADGAMEDONE", fi.fileName().toStdString());
 
 	m_event_loop->quit();
 }
@@ -2197,6 +2203,11 @@ bool QtHost::ParseCommandLineOptions(const QStringList& args, std::shared_ptr<VM
 				continue;
 			}
 #endif
+			// RTC_Hijack: add console command here so it doesn't complain
+			else if (CHECK_ARG(QStringLiteral("-CONSOLE")))
+			{
+				continue;
+			}
 			else if (CHECK_ARG(QStringLiteral("--")))
 			{
 				no_more_args = true;
@@ -2328,6 +2339,16 @@ int main(int argc, char* argv[])
 	QtHost::HookSignals();
 	EmuThread::start();
 
+	// RTC_Hijack: get the emulator directory and call the initialize Vanguard function
+	std::string emuDir = getDirectory();
+	CallImportedFunction<void>((char*)"InitVanguard", emuDir);
+
+    for (int i = 0; i < argc; i++)
+	{
+		if ((std::string)argv[i] == "-CONSOLE")
+			CallImportedFunction<void>((char*)"SHOWCONSOLE");
+	}
+
 	// Optionally run setup wizard.
 	int result;
 	if (s_run_setup_wizard && !QtHost::RunSetupWizard())
@@ -2364,11 +2385,14 @@ int main(int argc, char* argv[])
 		g_main_window->openDebugger();
 	}
 
+	// RTC_Hijack: nuke auto update
 	// Skip the update check if we're booting a game directly.
 	if (autoboot)
 		g_emu_thread->startVM(std::move(autoboot));
+	/*
 	else if (!s_nogui_mode)
 		g_main_window->startupUpdateCheck();
+	*/
 
 	// This doesn't return until we exit.
 	result = app.exec();

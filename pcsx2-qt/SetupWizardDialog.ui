@@ -61,7 +61,6 @@
         <widget class="QLabel" name="labelLanguage">
          <property name="font">
           <font>
-           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -118,7 +117,7 @@
    <item row="0" column="1">
     <widget class="QStackedWidget" name="pages">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page">
       <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -200,8 +199,17 @@
          </item>
          <item row="2" column="0" colspan="2">
           <widget class="QCheckBox" name="autoUpdateEnabled">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>Enable Automatic Updates</string>
+           </property>
+           <property name="checkable">
+            <bool>false</bool>
+           </property>
+           <property name="checked">
+            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -393,8 +401,7 @@
             <string>Add...</string>
            </property>
            <property name="icon">
-            <iconset theme="folder-add-line">
-             <normaloff>.</normaloff>.</iconset>
+            <iconset theme="folder-add-line"/>
            </property>
            <property name="toolButtonStyle">
             <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -413,8 +420,7 @@
             <string>Remove</string>
            </property>
            <property name="icon">
-            <iconset theme="folder-reduce-line">
-             <normaloff>.</normaloff>.</iconset>
+            <iconset theme="folder-reduce-line"/>
            </property>
            <property name="toolButtonStyle">
             <enum>Qt::ToolButtonTextBesideIcon</enum>

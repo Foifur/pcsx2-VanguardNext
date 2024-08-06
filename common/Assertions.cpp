@@ -80,6 +80,8 @@ static inline void ResumeThreads(void* handle)
 
 void pxOnAssertFail(const char* file, int line, const char* func, const char* msg)
 {
+	// RTC_Hijack: nuke assertion failure message
+	/*
 	std::unique_lock guard(s_assertion_failed_mutex);
 
 	void* handle;
@@ -107,7 +109,8 @@ void pxOnAssertFail(const char* file, int line, const char* func, const char* ms
 	else if (result != IDIGNORE)
 	{
 		// try to save a crash dump before exiting
-		CrashHandler::WriteDumpForCaller();
+		// RTC_Hijack: disable crash dumping
+		//CrashHandler::WriteDumpForCaller();
 		TerminateProcess(GetCurrentProcess(), 0xBAADC0DE);
 	}
 #else
@@ -118,4 +121,5 @@ void pxOnAssertFail(const char* file, int line, const char* func, const char* ms
 #endif
 
 	ResumeThreads(handle);
+	*/
 }

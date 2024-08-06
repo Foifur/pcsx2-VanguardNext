@@ -115,6 +115,7 @@ static void WriteMinidumpAndCallstack(PEXCEPTION_POINTERS exi)
 		WriteFile(hFile, line, static_cast<DWORD>(std::strlen(line)), &written, nullptr);
 	}
 
+	
 	GenerateCrashFilename(filename, std::size(filename), s_write_directory.empty() ? nullptr : s_write_directory.c_str(), L"dmp");
 
 	const MINIDUMP_TYPE minidump_type =
@@ -145,8 +146,11 @@ static void WriteMinidumpAndCallstack(PEXCEPTION_POINTERS exi)
 static LONG NTAPI ExceptionHandler(PEXCEPTION_POINTERS exi)
 {
 	// if the debugger is attached, or we're recursively crashing, let it take care of it.
+	// RTC_Hijack: disable crash dumping
+	/*
 	if (!s_in_crash_handler)
 		WriteMinidumpAndCallstack(exi);
+	*/
 
 	// returning EXCEPTION_CONTINUE_SEARCH makes sense, except for the fact that it seems to leave zombie processes
 	// around. instead, force ourselves to terminate.

@@ -104,6 +104,9 @@ public:
 
 	void openDebugger();
 
+	// RTC_Hijack: make public
+	void doStartFile(std::optional<CDVD_SourceType> source, const QString& path);
+
 public Q_SLOTS:
 	void checkForUpdates(bool display_message, bool force_check);
 	void refreshGameList(bool invalidate_cache);
@@ -273,7 +276,8 @@ private:
 	void loadSaveStateFile(const QString& filename, const QString& state_filename);
 	void populateLoadStateMenu(QMenu* menu, const QString& filename, const QString& serial, quint32 crc);
 	void populateSaveStateMenu(QMenu* menu, const QString& serial, quint32 crc);
-	void doStartFile(std::optional<CDVD_SourceType> source, const QString& path);
+	// RTC_Hijack: make public
+	//void doStartFile(std::optional<CDVD_SourceType> source, const QString& path);
 	void doDiscChange(CDVD_SourceType source, const QString& path);
 
 	Ui::MainWindow m_ui;
