@@ -29,8 +29,6 @@
 #include <sstream>
 #include <vector>
 
-#include "pcsx2-qt/Vanguard/VanguardHelpers.h"
-
 namespace Patch
 {
 	enum patch_cpu_type : u8
@@ -906,9 +904,6 @@ void Patch::PatchFunc::gsinterlacemode(PatchGroup* group, const std::string_view
 // This is for applying patches directly to memory
 void Patch::ApplyLoadedPatches(patch_place_type place)
 {
-	// RTC_Hijack: call Vanguard function
-	CallImportedFunction<void>((char*)"CORESTEP");
-
 	for (const PatchCommand* i : s_active_patches)
 	{
 		if (i->placetopatch == place)

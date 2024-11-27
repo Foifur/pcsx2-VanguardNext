@@ -7,12 +7,16 @@
 #include <SPU2/spu2.h>
 #include <GS.h>
 #include <IopMem.h>
+#include "Cache.h"
+#include <SPU2/defs.h>
 
 
 unsigned char Vanguard_peekbyte(long long addr, int selection)
 {
 	u8 byte = 0;
 	u16 data = 0;
+	long long mod = 0;
+	long long newAddr = 0;
 
 	switch (selection)
 	{
@@ -24,11 +28,18 @@ unsigned char Vanguard_peekbyte(long long addr, int selection)
 		case 1:
 			byte = gsRead8(addr);
 			break;
-		// SPU2 RAM read
+		// IOP RAM read
 		case 2:
-			data = SPU2read(addr);
-
-			if ((addr % 2) == 0)
+			byte = iopMemRead8(static_cast<u32>(addr));
+			break;
+		default:
+			break;
+		// SPU2 RAM/Registers read
+		case 3:
+			mod = addr % 2;
+			newAddr = addr - mod;
+			data = SPU2read(static_cast<u32>(addr));
+			if (mod < 1)
 			{
 				byte = data & 0xFF;
 			}
@@ -36,11 +47,6 @@ unsigned char Vanguard_peekbyte(long long addr, int selection)
 			{
 				byte = (data >> 8) & 0xFF;
 			}
-			break;
-		// SPU2 Register read
-		case 3:
-			data = iopMemRead8(addr);
-		default:
 			break;
 	}
 	return byte;
@@ -60,8 +66,12 @@ void Vanguard_pokebyte(long long addr, unsigned char val, int selection)
 		case 1:
 			gsWrite8(addr, val);
 			break;
-		// SPU2RAM write
+		// IOP RAM write
 		case 2:
+			iopMemWrite8(static_cast<u32>(addr), val);
+			break;
+		// SPU2RAM/Registers write
+		case 3:
 			if ((addr % 2) == 0)
 			{
 				value = (val << 8) | (Vanguard_peekbyte(addr + 1, 1));
@@ -73,9 +83,6 @@ void Vanguard_pokebyte(long long addr, unsigned char val, int selection)
 			}
 			SPU2write(static_cast<u32>(addr), value);
 			break;
-		// SPU2 Register write
-		case 3:
-			iopMemWrite8(addr, val);
 		default:
 			break;
 
@@ -83,19 +90,22 @@ void Vanguard_pokebyte(long long addr, unsigned char val, int selection)
 
 }
 
-
-// pauses the emulator. If we're applying a corruption from cold boot,
-// make sure we don't resume the emulator after loading the game.
+bool VanguardClient::ok_to_corestep = false;
 void Vanguard_pause(bool pauseUntilCorrupt)
 {
 	if (VMManager::HasValidVM())
-	    VMManager::SetState(VMState::Paused);
+	{
+		VMManager::SetState(VMState::Paused);
+	}
 }
 
 void Vanguard_resume()
 {
 	if (VMManager::HasValidVM())
-	    VMManager::SetState(VMState::Running);
+	{
+		VMManager::SetState(VMState::Running);
+		VanguardClient::ok_to_corestep = true;
+	}
 }
 
 
@@ -122,9 +132,9 @@ bool VanguardClient::loading = false;
 void Vanguard_loadROM(BSTR filename)
 {
   VanguardClient::loading = true;
+  VanguardClient::ok_to_corestep = false;
 
   std::string converted_filename = BSTRToString(filename);
-
 
   if (VMManager::GetState() != VMState::Running && VMManager::GetState() != VMState::Paused)
 	VanguardClientInitializer::win->MainWindow::doStartFile(std::nullopt, QString::fromStdString(converted_filename));

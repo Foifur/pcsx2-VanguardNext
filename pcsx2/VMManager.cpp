@@ -64,6 +64,10 @@
 #include <mutex>
 #include <sstream>
 
+
+#include "pcsx2-qt/Vanguard/VanguardHelpers.h" // RTC_Hijack
+#include "VMManager.h"						   // RTC_Hijack
+
 #ifdef _WIN32
 #include "common/RedtapeWindows.h"
 #include <objbase.h>
@@ -2769,6 +2773,12 @@ void VMManager::Internal::VSyncOnCPUThread()
 {
 	Pad::UpdateMacroButtons();
 
+	// RTC_Hijack: call Vanguard function
+	if (VanguardClient::ok_to_corestep)
+	{
+		CallImportedFunction<void>((char*)"CORESTEP");
+	}
+
 	Patch::ApplyLoadedPatches(Patch::PPT_CONTINUOUSLY);
 	Patch::ApplyLoadedPatches(Patch::PPT_COMBINED_0_1);
 
@@ -3410,6 +3420,8 @@ void VMManager::SetHardwareDependentDefaultSettings(SettingsInterface& si)
 
 	Console.WriteLn(fmt::format("CPU cores count: {}", core_count));
 
+	// RTC_Hijack: disable VU1 multithreading since it causes graphical issues
+	/*
 	if (core_count >= 3)
 	{
 		Console.WriteLn("  Enabling MTVU.");
@@ -3420,6 +3432,9 @@ void VMManager::SetHardwareDependentDefaultSettings(SettingsInterface& si)
 		Console.WriteLn("  Disabling MTVU.");
 		si.SetBoolValue("EmuCore/Speedhacks", "vuThread", false);
 	}
+	*/
+	Console.WriteLn("  Disabling MTVU.");
+	si.SetBoolValue("EmuCore/Speedhacks", "vuThread", false);
 
 	const int extra_threads = (core_count > 3) ? 3 : 2;
 	Console.WriteLn(fmt::format("  Setting Extra Software Rendering Threads to {}.", extra_threads));

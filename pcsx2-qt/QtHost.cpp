@@ -1374,7 +1374,8 @@ bool QtHost::InitializeConfig()
 void Host::SetDefaultUISettings(SettingsInterface& si)
 {
 	si.SetBoolValue("UI", "InhibitScreensaver", true);
-	si.SetBoolValue("UI", "ConfirmShutdown", true);
+	// RTC_Hijack: default confirm shutdown to false
+	si.SetBoolValue("UI", "ConfirmShutdown", false);
 	si.SetBoolValue("UI", "StartPaused", false);
 	si.SetBoolValue("UI", "PauseOnFocusLoss", false);
 	si.SetBoolValue("UI", "StartFullscreen", false);
