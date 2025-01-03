@@ -30,7 +30,7 @@ unsigned char Vanguard_peekbyte(long long addr, int selection)
 			break;
 		// IOP RAM read
 		case 2:
-			byte = iopMemRead8(static_cast<u32>(addr));
+			byte = iopMemRead8(addr);
 			break;
 		default:
 			break;
@@ -38,7 +38,7 @@ unsigned char Vanguard_peekbyte(long long addr, int selection)
 		case 3:
 			mod = addr % 2;
 			newAddr = addr - mod;
-			data = SPU2read(static_cast<u32>(addr));
+			data = iopMemRead16(newAddr);
 			if (mod < 1)
 			{
 				byte = data & 0xFF;
@@ -68,7 +68,7 @@ void Vanguard_pokebyte(long long addr, unsigned char val, int selection)
 			break;
 		// IOP RAM write
 		case 2:
-			iopMemWrite8(static_cast<u32>(addr), val);
+			iopMemWrite8(addr, val);
 			break;
 		// SPU2RAM/Registers write
 		case 3:
@@ -81,7 +81,7 @@ void Vanguard_pokebyte(long long addr, unsigned char val, int selection)
 				addr -= 1;
 				value = (Vanguard_peekbyte(addr, 1) << 8) | val;
 			}
-			SPU2write(static_cast<u32>(addr), value);
+			iopMemWrite16(addr, value);
 			break;
 		default:
 			break;
