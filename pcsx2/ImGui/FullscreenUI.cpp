@@ -54,6 +54,8 @@
 #include <utility>
 #include <vector>
 
+#include "pcsx2-qt/Vanguard/VanguardHelpers.h" // RTC_Hijack
+
 #define TR_CONTEXT "FullscreenUI"
 
 namespace
@@ -1069,7 +1071,11 @@ void FullscreenUI::RequestShutdown(bool save_state)
 {
 	ConfirmShutdownIfMemcardBusy([save_state](bool result) {
 		if (result)
+		{
 			DoShutdown(save_state);
+			// RTC_Hijack: call Vanguard function
+			CallImportedFunction<void>((char*)"GAMECLOSED");
+		}
 
 		ClosePauseMenu();
 	});
