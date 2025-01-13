@@ -2668,6 +2668,9 @@ void MainWindow::startGameListEntry(const GameList::Entry* entry, std::optional<
 		params->save_state = std::move(state_filename);
 	}
 
+	// RTC_Hijack
+	VanguardClient::system_core = "PS2";
+
 	g_emu_thread->startVM(std::move(params));
 }
 

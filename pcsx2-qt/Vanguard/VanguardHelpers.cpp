@@ -34,11 +34,25 @@ unsigned char Vanguard_peekbyte(long long addr, int selection)
 			break;
 		default:
 			break;
-		// SPU2 RAM/Registers read
+		// SPU2 Registers read
 		case 3:
 			mod = addr % 2;
 			newAddr = addr - mod;
-			data = iopMemRead16(newAddr);
+			data = SPU2read(newAddr);
+			if (mod < 1)
+			{
+				byte = data & 0xFF;
+			}
+			else
+			{
+				byte = (data >> 8) & 0xFF;
+			}
+			break;
+		// SPU2 RAM read
+		case 4:
+			mod = addr % 2;
+			newAddr = addr - mod;
+			data = spu2M_Read(newAddr);
 			if (mod < 1)
 			{
 				byte = data & 0xFF;
@@ -70,7 +84,7 @@ void Vanguard_pokebyte(long long addr, unsigned char val, int selection)
 		case 2:
 			iopMemWrite8(addr, val);
 			break;
-		// SPU2RAM/Registers write
+		// SPU2 Registers write
 		case 3:
 			if ((addr % 2) == 0)
 			{
@@ -81,7 +95,20 @@ void Vanguard_pokebyte(long long addr, unsigned char val, int selection)
 				addr -= 1;
 				value = (Vanguard_peekbyte(addr, 1) << 8) | val;
 			}
-			iopMemWrite16(addr, value);
+			SPU2write(addr, value);
+			break;
+		// SPU2 RAM write
+		case 4:
+			if ((addr % 2) == 0)
+			{
+				value = (val << 8) | (Vanguard_peekbyte(addr + 1, 1));
+			}
+			else
+			{
+				addr -= 1;
+				value = (Vanguard_peekbyte(addr, 1) << 8) | val;
+			}
+			spu2M_Write(addr, value);
 			break;
 		default:
 			break;
@@ -180,6 +207,12 @@ void Vanguard_prepShutdown()
 void Vanguard_forceStop()
 {
 	VanguardClientInitializer::win->MainWindow::requestExit(false);
+}
+
+std::string VanguardClient::system_core = "EMPTY";
+char* Vanguard_getSystemCore()
+{
+	return VanguardClient::system_core.data();
 }
 
 //converts a BSTR received from the Vanguard client to std::string
