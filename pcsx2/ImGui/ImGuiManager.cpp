@@ -34,6 +34,8 @@
 #include <mutex>
 #include <unordered_map>
 
+#include "pcsx2-qt/Vanguard/VanguardHelpers.h"
+
 namespace ImGuiManager
 {
 	struct SoftwareCursor
@@ -685,7 +687,7 @@ void ImGuiManager::AcquirePendingOSDMessages(Common::Timer::Value current_time)
 		if (s_osd_posted_messages.empty())
 			break;
 
-		if (GSConfig.OsdShowMessages)
+		if (GSConfig.OsdShowMessages && CallImportedFunction<bool>((char*)"RTCOSDENABLED"))
 		{
 			OSDMessage& new_msg = s_osd_posted_messages.front();
 			std::deque<OSDMessage>::iterator iter;

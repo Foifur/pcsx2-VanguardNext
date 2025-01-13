@@ -618,8 +618,7 @@ Pcsx2Config::GSOptions::GSOptions()
 	DisableFramebufferFetch = false;
 	DisableVertexShaderExpand = false;
 	SkipDuplicateFrames = false;
-	// RTC_Hijack: default OSD to false
-	OsdShowMessages = false;
+	OsdShowMessages = true;
 	OsdShowSpeed = false;
 	OsdShowFPS = false;
 	OsdShowCPU = false;
