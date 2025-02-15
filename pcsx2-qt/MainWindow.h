@@ -104,8 +104,11 @@ public:
 
 	void openDebugger();
 
-	// RTC_Hijack: make public
+	// RTC_Hijack: move from private
 	void doStartFile(std::optional<CDVD_SourceType> source, const QString& path);
+	SettingsWindow* getSettingsWindow();
+
+	void recreateSettings();
 
 public Q_SLOTS:
 	void checkForUpdates(bool display_message, bool force_check);
@@ -217,7 +220,8 @@ private:
 	void connectSignals();
 	void createRendererSwitchMenu();
 	void recreate();
-	void recreateSettings();
+	//RTC_Hijack: move to public
+	//void recreateSettings();
 	void destroySubWindows();
 
 	void registerForDeviceNotifications();
@@ -254,7 +258,8 @@ private:
 	void destroyDisplayWidget(bool show_game_list);
 	void updateDisplayWidgetCursor();
 
-	SettingsWindow* getSettingsWindow();
+	//RTC_Hijack: move to public
+	//SettingsWindow* getSettingsWindow();
 	void doSettings(const char* category = nullptr);
 
 	InputRecordingViewer* getInputRecordingViewer();

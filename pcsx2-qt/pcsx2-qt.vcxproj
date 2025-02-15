@@ -157,11 +157,14 @@
     <ClCompile Include="QtUtils.cpp" />
     <ClCompile Include="Translations.cpp" />
     <ClCompile Include="Vanguard\VanguardHelpers.cpp" />
+    <ClCompile Include="Vanguard\VanguardJsonParser.cpp" />
     <ClCompile Include="VCRuntimeChecker.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vanguard\VanguardClientInitializer.h" />
+    <ClInclude Include="Vanguard\VanguardEmuSettings.h" />
     <ClInclude Include="Vanguard\VanguardHelpers.h" />
+    <ClInclude Include="Vanguard\VanguardJsonParser.h" />
     <QtMoc Include="SetupWizardDialog.h" />
     <QtMoc Include="Settings\InterfaceSettingsWidget.h" />
     <QtMoc Include="Settings\GameListSettingsWidget.h" />
