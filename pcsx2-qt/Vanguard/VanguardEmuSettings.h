@@ -29,26 +29,21 @@ public:
   // save the current value of required settings
   void SaveSettings()
   {
-	  save_setting<bool>("EmuCore",
-		  "CdvdPrecache", CdvdPrecache);
+	  save_setting<bool>("EmuCore", "CdvdPrecache", CdvdPrecache);
 	  
-	  save_setting<bool>("EmuCore",
-		  "EnableThreadPinning", EnableThreadPinning);
+	  save_setting<bool>("EmuCore", "EnableThreadPinning", EnableThreadPinning);
 
 
 
 
-	  save_setting<int>("EmuCore/Speedhacks",
-		  "EECycleRate", EECycleRate);
+	  save_setting<int>("EmuCore/Speedhacks", "EECycleRate", EECycleRate);
 
 
 
 
-	  save_setting<bool>("EmuCore/GS",
-		  "VsyncEnable", VsyncEnable);
+	  save_setting<bool>("EmuCore/GS", "VsyncEnable", VsyncEnable);
 
-	  save_setting<int>("EmuCore/GS",
-		  "VsyncQueueSize", VsyncQueueSize);
+	  save_setting<int>("EmuCore/GS", "VsyncQueueSize", VsyncQueueSize);
 
 	  save_setting<char*>("EmuCore/GS",
 		  "AspectRatio", AspectRatio, Pcsx2Config::GSOptions::AspectRatioNames, static_cast<size_t>(AspectRatioType::MaxCount));

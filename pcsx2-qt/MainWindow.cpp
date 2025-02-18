@@ -2669,7 +2669,7 @@ void MainWindow::startGameListEntry(const GameList::Entry* entry, std::optional<
 	}
 
 	// RTC_Hijack
-	VanguardClient::system_core = "PS2";
+	VanguardClient::system_core = "PCSX2";
 
 	g_emu_thread->startVM(std::move(params));
 }
@@ -2968,6 +2968,9 @@ void MainWindow::doStartFile(std::optional<CDVD_SourceType> source, const QStrin
 		return;
 	else if (resume.value())
 		params->state_index = -1;
+
+	// RTC_Hijack
+	VanguardClient::system_core = "PCSX2";
 
 	g_emu_thread->startVM(std::move(params));
 }
